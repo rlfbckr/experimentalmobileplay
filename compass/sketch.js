@@ -9,18 +9,19 @@ function setup() {
   textAlign(CENTER, CENTER);
   angleMode(DEGREES);
   textFont(myFont, 36);
+  textSize(36);
+
 }
 
 function draw() {
   background(10);
 
-  text('hi',0,-20);
-  textSize(36);
-  fill('magenta');
-  ellipse(width / 2, height / 2, accelerationZ);
   fill(255);
   text('Z '+  rotationZ,0,0);
- /*
+  stroke(255,0,0);
+line(0,0,1000,1000);
+
+  /*
   text("ax: " + accelerationX, 100, 100);
   text("ay: " + accelerationY, 100, 150);
   text("az: " + accelerationZ, 100, 200);
