@@ -12,7 +12,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(90);
 
  
   textSize(36);
