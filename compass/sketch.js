@@ -5,7 +5,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight,WEBGL);
+  createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   //angleMode(DEGREES);
   textFont(myFont, 36);
