@@ -5,7 +5,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight,WEBGL);
   textAlign(CENTER, CENTER);
   angleMode(DEGREES);
   textFont(myFont, 36);
@@ -19,7 +19,7 @@ function draw() {
   fill('magenta');
   ellipse(width / 2, height / 2, accelerationZ);
   fill(255);
-  text(  rotationZ,0,0);
+  text('Z'+  rotationZ,0,0);
  /*
   text("ax: " + accelerationX, 100, 100);
   text("ay: " + accelerationY, 100, 150);
