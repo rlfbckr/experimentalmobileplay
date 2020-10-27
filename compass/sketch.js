@@ -16,12 +16,12 @@ rotateion = rotationZ;
 
 function draw() {
   background(10);
-  rotation = (rotation*0.999) + (rotationZ*0.001);
+  rotation = (rotation*0.9) + (rotationZ*0.1);
   fill(255);
   text('Z '+  rotation,0,0);
   stroke(255,0,0);
   push();
-  rotateT(rotation);
+  rotateZ(rotation);
   line(0,0,0,1000);
   pop();
   /*
