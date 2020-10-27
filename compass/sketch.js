@@ -12,14 +12,14 @@ function setup() {
 }
 
 function draw() {
-  background(20);
+  background(10);
 
   text('hi',0,-20);
   textSize(36);
   fill('magenta');
   ellipse(width / 2, height / 2, accelerationZ);
   fill(255);
-  text('Z'+  rotationZ,0,0);
+  text('Z '+  rotationZ,0,0);
  /*
   text("ax: " + accelerationX, 100, 100);
   text("ay: " + accelerationY, 100, 150);
