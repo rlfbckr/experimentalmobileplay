@@ -1,5 +1,6 @@
 
 let myFont;
+let rotation =0;
 function preload() {
   myFont = loadFont('Ligconsolata-Regular.otf');
 }
@@ -10,17 +11,17 @@ function setup() {
   angleMode(DEGREES);
   textFont(myFont, 36);
   textSize(36);
-
+rotateion = rotationZ;
 }
 
 function draw() {
   background(10);
-
+  rotation = (rotation*0.999) + (rotationZ*0.001);
   fill(255);
-  text('Z '+  rotationZ,0,0);
+  text('Z '+  rotation,0,0);
   stroke(255,0,0);
   push();
-  rotateT(rotationZ);
+  rotateT(rotation);
   line(0,0,0,1000);
   pop();
   /*
