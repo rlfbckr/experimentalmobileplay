@@ -7,7 +7,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
-  //angleMode(DEGREES);
+  angleMode(DEGREES);
   textFont(myFont, 36);
 }
 
@@ -19,10 +19,12 @@ function draw() {
   fill('magenta');
   ellipse(width / 2, height / 2, accelerationZ);
   fill(255);
-  text( rotationX + ' ' + rotationY+ ' ' + rotationZ,0,0);
+  text(  rotationZ,0,0);
+ /*
   text("ax: " + accelerationX, 100, 100);
   text("ay: " + accelerationY, 100, 150);
   text("az: " + accelerationZ, 100, 200);
+ */
   //rotateX(radians(rotationX));
   //rotateY(radians(rotationY));
 
