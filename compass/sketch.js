@@ -1,7 +1,7 @@
 
 let myFont;
 function preload() {
-  myFont = loadFont('../assets/Ligconsolata-Regular.otf');
+  myFont = loadFont('Ligconsolata-Regular.otf');
 }
 
 function setup() {
