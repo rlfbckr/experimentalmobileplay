@@ -18,7 +18,7 @@ function draw() {
   background(10);
   rotation = (rotation*0.9) + (rotationZ*0.1);
   fill(255);
-  text('Z '+  rotation,0,0);
+  text('Z ' + nf(rotation,3,3),0,0);
   stroke(255,0,0);
   push();
   rotateZ(rotation);
