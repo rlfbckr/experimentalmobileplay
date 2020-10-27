@@ -19,8 +19,10 @@ function draw() {
   fill(255);
   text('Z '+  rotationZ,0,0);
   stroke(255,0,0);
-line(0,0,1000,1000);
-
+  push();
+  rotateT(rotationZ);
+  line(0,0,0,1000);
+  pop();
   /*
   text("ax: " + accelerationX, 100, 100);
   text("ay: " + accelerationY, 100, 150);
