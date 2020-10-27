@@ -12,9 +12,9 @@ function setup() {
 }
 
 function draw() {
-  background(90);
+  background(20);
 
- 
+  text('hi',0,-20);
   textSize(36);
   fill('magenta');
   ellipse(width / 2, height / 2, accelerationZ);
