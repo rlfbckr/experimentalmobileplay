@@ -1,8 +1,15 @@
 let myFont;
 
+let range_long_min = 10.183770; // kiel
+let range_long_max = 10.183770
+
+let range_lat_min = 53.026112; // links von bremen
+let range_lat_max = 52.648777; // rechts von berlin
+
+
 let uid = gen_uid(); // unique brower/user id wird als db key benutze...
 
-let direction = 0; // wohin wird gekucked
+let direction = -1; // wohin wird gekucked
 let lat = -1; // wo bin ich
 let long = -1;
 var database; // db ref
@@ -110,7 +117,7 @@ function updatePlayerData() {
   firebase.database().ref('player/' + uid).set({
     lat: lat,
     long: long,
-    heading: rotationZ,
+    direction: direction,
     timestamp: Date.now()
   });
  
@@ -119,7 +126,11 @@ function updatePlayerData() {
 
 function draw() {
   background(20);
+  if (rotationZ != null) {
   direction  = rotationZ; 
+  } else {
+    direction = -1; /// not found
+  }
   fill(255);
   text('z = ' + direction ,0,+20);
   stroke(255,0,255);
