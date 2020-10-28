@@ -1,10 +1,12 @@
-let uid = gen_uid();
 let myFont;
-let direction = 0;
-let lat = -1;
+
+let uid = gen_uid(); // unique brower/user id wird als db key benutze...
+
+let direction = 0; // wohin wird gekucked
+let lat = -1; // wo bin ich
 let long = -1;
-var database;
-var players;
+var database; // db ref
+var players; // alle spieler
 
 function preload() {
   myFont = loadFont('Ligconsolata-Regular.otf');
@@ -122,11 +124,11 @@ function draw() {
   background(20);
   direction  = rotationZ; 
   fill(255);
-  text('z= ' + direction ,0,0);
+  text('z = ' + direction ,0,+20);
   stroke(255,0,255);
 
   if(geoCheck() == true){
-  text('g= '+lat+' '+long,0,-20);
+  text('g = '+lat+' '+long,0,-20);
 	} else{
     text('geo KO',0,-20);
 	}
