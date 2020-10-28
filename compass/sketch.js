@@ -39,18 +39,14 @@ function setup() {
   maintenace();
   updatePlayerData();
   getAllPlayerData();
-  if(geoCheck() == true){
-  	//geolocation is available
-	} else{
-		//error getting geolocaion
-	}
-
-  setInterval(updateData, 5000);
- 
+  setInterval(updateData, 5000); // daten mit server abgleichen
 }
 
 function updateData() {
-  updatePlayerData();
+  updatePlayerData(); // meine daten updaten
+  maintenace();
+  getAllPlayerData(); // alle anders player daten holen
+
 }
 
 function getAllPlayerData() {
@@ -92,12 +88,13 @@ function positionChanged(position){
   lat = position.latitude;
   long = position.longitude;
 }
-function maintenace() {
-
+function maintenace() { // remove old players
+  // vielleicht besser nur einen zentralen maintainer...
+  
   // remove old players
   var ref = firebase.database().ref('player');
   var now = Date.now();
-  var cutoff = now - 60 * 1000; // eine minute...
+  var cutoff = now - 20 * 1000; // eine minute...
   var old = ref.orderByChild('timestamp').endAt(cutoff).limitToLast(1);
   var listener = old.on('child_added', function(snapshot) {
       snapshot.ref.remove();
