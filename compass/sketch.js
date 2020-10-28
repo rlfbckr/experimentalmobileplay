@@ -1,6 +1,8 @@
 let uid = gen_uid();
 let myFont;
-let rotation =0;
+let direction = 0;
+let lat = -1;
+let long = -1;
 var database;
 var players;
 
@@ -17,7 +19,7 @@ function setup() {
   textFont(myFont, 36);
   textSize(36);
   rotateion = rotationZ;
-
+  watchPosition(positionChanged);
   var firebaseConfig = {
     apiKey: "AIzaSyDdxhSS1i5bmGA8kcEZX6VARalGIU-_qZg",
     authDomain: "exmp-2c800.firebaseapp.com",
@@ -35,6 +37,11 @@ function setup() {
   maintenace();
   updatePlayerData();
   getAllPlayerData();
+  if(geoCheck() == true){
+  	//geolocation is available
+	} else{
+		//error getting geolocaion
+	}
 
   setInterval(updateData, 5000);
  
@@ -77,7 +84,12 @@ function gotDatattt(data) {
   }
 }
 
-
+function positionChanged(position){
+  print("lat: " + position.latitude);
+  print("long: " + position.longitude);
+  lat = position.latitude;
+  long = position.longitude;
+}
 function maintenace() {
 
   // remove old players
@@ -97,8 +109,8 @@ function updatePlayerData() {
  // var player = database.ref('player');
 
   firebase.database().ref('player/' + uid).set({
-    lat: '2',
-    lon: '3',
+    lat: lat,
+    long: long,
     heading: rotationZ,
     timestamp: Date.now()
   });
@@ -108,12 +120,19 @@ function updatePlayerData() {
 
 function draw() {
   background(20);
-  rotation = rotationZ; 
+  direction  = rotationZ; 
   fill(255);
-  text('z= ' + rotation,0,0);
+  text('z= ' + direction ,0,0);
   stroke(255,0,255);
+
+  if(geoCheck() == true){
+  text('g= '+lat+' '+long,0,-20);
+	} else{
+    text('geo KO',0,-20);
+	}
+
   push();
-  rotateZ(rotation);
+  rotateZ(direction );
   line(0,0,0,1000);
   pop();
 
