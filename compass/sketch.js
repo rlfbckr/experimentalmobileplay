@@ -1,9 +1,10 @@
-let myFont;
-let name = "-";
+
+
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
 let myMap;
 let canvas;
+let myFont;
 // Options for map
 const options = {
   lat: 0,
@@ -15,7 +16,7 @@ const options = {
 };
 
 let uid = gen_uid(); // unique brower/user id wird als db key benutze...
-
+let name = "-"; // player name
 let direction = -1; // wohin wird gekucked
 let lat = -1; // wo bin ich
 let long = -1;
@@ -115,6 +116,31 @@ function drawPlayer() {
 
   for (var i = 0; i < keys.length; i++) {
     var k = keys[i];
+   // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
+    if (k!=uid) {
+      // not mee
+      var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
+      size = map(myMap.zoom(), 1, 6, 5, 7);
+      stroke(255);
+      fill(0, 255, 255)
+      ellipse(pos.x, pos.y, size, size);
+      for (var j = 0; j < keys.length; j++) {
+        var ko = keys[j];
+        if (ko != k) {
+          console.log("Key: " + ko + "   lat: " + players[ko].lat + "   Name: " + players[ko].long);
+          var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
+          line(pos.x,pos.y,pos_other.x,pos_other.y)
+        }
+      }
+
+    }
+  }
+ }
+
+function drawLinesBetweenAllPlayer() {
+  var keys = Object.keys(players);
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
     console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
     if (k!=uid) {
       // not mee
@@ -125,9 +151,8 @@ function drawPlayer() {
       ellipse(pos.x, pos.y, size, size);
     }
   }
- 
-
 }
+
 
 function updateData() {
   updatePlayerData(); // meine daten updaten
