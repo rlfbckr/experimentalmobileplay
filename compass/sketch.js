@@ -1,11 +1,20 @@
 let myFont;
+ 
 
-let range_long_min = 10.183770; // kiel
-let range_long_max = 10.183770
+const key = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
+const mappa = new Mappa('MapboxGL', key);
+let myMap;
 
-let range_lat_min = 53.026112; // links von bremen
-let range_lat_max = 52.648777; // rechts von berlin
-
+let canvas;
+// Options for map
+const options = {
+  lat: 0,
+  lng: 0,
+  zoom: 4,
+ //style: 'mapbox://styles/mapbox/streets-v11',
+ // style: 'mapbox://styles/rlfbckr/ckgtcdn6y0xc619p6xw4ncqtk',
+  pitch: 50,
+};
 
 let uid = gen_uid(); // unique brower/user id wird als db key benutze...
 
@@ -20,9 +29,11 @@ function preload() {
 }
 
 
+ 
 
 function setup() {
-  createCanvas(windowWidth, windowHeight,WEBGL);
+ // canvas = createCanvas(windowWidth, windowHeight,WEBGL);
+  canvas = createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   angleMode(DEGREES);
   textFont(myFont, 36);
@@ -47,6 +58,69 @@ function setup() {
   updatePlayerData();
   getAllPlayerData();
   setInterval(updateData, 5000); // daten mit server abgleichen
+  meteorites = loadTable('Meteorite_Landings.csv', 'csv', 'header');
+  myMap = mappa.tileMap(options);
+  myMap.overlay(canvas);
+  myMap.onChange(drawPlayer);
+
+}
+
+function draw() {
+ 
+  // background(20);
+  // drawPlayer();
+   if (rotationZ != null) {
+    direction  = rotationZ; 
+   } else {
+     direction = -1; /// not found
+   }
+  
+   fill(255);
+   text('z = ' + direction ,0,+20);
+   stroke(255,0,255);
+ 
+   if (geoCheck() == true) {
+     text('g = '+lat+' '+long,0,-20);
+   } else{
+     text('geo KO',0,-20);
+   }
+   push();
+ 
+   rotateZ(direction );
+   line(0,0,0,1000);
+   pop();
+  
+ 
+ }
+ 
+
+function drawPlayer() {
+  // Clear the canvas
+  clear();
+  /*
+  for (let i = 0; i < meteorites.getRowCount(); i += 1) {
+    // Get the lat/lng of each meteorite
+    const latitude = Number(meteorites.getString(i, 'reclat'));
+    const longitude = Number(meteorites.getString(i, 'reclong'));
+
+    // Transform lat/lng to pixel position
+    const pos = myMap.latLngToPixel(latitude, longitude);
+    // Get the size of the meteorite and map it. 60000000 is the mass of the largest
+    // meteorite (https://en.wikipedia.org/wiki/Hoba_meteorite)
+    let size = meteorites.getString(i, 'mass (g)');
+    size = map(size, 558, 60000000, 1, 25) + myMap.zoom();
+    ellipse(pos.x, pos.y, size, size);
+
+  }
+ */
+  // Transform lat/lng to pixel position
+    var pos = myMap.latLngToPixel(lat, long);
+    size = map(myMap.zoom(), 558, 60000000, 10, 25) ;
+    stroke(255);
+    fill(255,0,255)
+    ellipse(pos.x, pos.y, size, size);
+ 
+  
 }
 
 function updateData() {
@@ -69,25 +143,6 @@ function gotData(data) {
  players = data.val();
 }
 
-function gotDatattt(data) {
-  players = data.val();
-   // Grab the keys to iterate over the object
-  var keys = Object.keys(players);
-
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    // Look at each fruit object!
-    var player = players[key];
-    console.log("player"+i+";");
-    console.log(player.uid);
-    console.log(uid);
-
-    //console.log(player.timestamp);
-   if (player.uid == uid) {
-    console.log("its ME");
-   }
-  }
-}
 
 function positionChanged(position){
   print("lat: " + position.latitude);
@@ -95,10 +150,8 @@ function positionChanged(position){
   lat = position.latitude;
   long = position.longitude;
 }
-function maintenace() { // remove old players
-  // vielleicht besser nur einen zentralen maintainer...
-  
-  // remove old players
+
+function maintenace() {
   var ref = firebase.database().ref('player');
   var now = Date.now();
   var cutoff = now - 20 * 1000; // eine minute...
@@ -106,8 +159,6 @@ function maintenace() { // remove old players
   var listener = old.on('child_added', function(snapshot) {
       snapshot.ref.remove();
   });
-  
-
 }
 
 function updatePlayerData() {
@@ -124,29 +175,6 @@ function updatePlayerData() {
 
 }
 
-function draw() {
-  background(20);
-  if (rotationZ != null) {
-  direction  = rotationZ; 
-  } else {
-    direction = -1; /// not found
-  }
-  fill(255);
-  text('z = ' + direction ,0,+20);
-  stroke(255,0,255);
-
-  if(geoCheck() == true){
-  text('g = '+lat+' '+long,0,-20);
-	} else{
-    text('geo KO',0,-20);
-	}
-
-  push();
-  rotateZ(direction );
-  line(0,0,0,1000);
-  pop();
-
-}
 
 
 function gen_uid() {
