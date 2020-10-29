@@ -1,18 +1,16 @@
 let myFont;
- 
-
-const key = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
-const mappa = new Mappa('MapboxGL', key);
+let name = "-";
+const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
+const mappa = new Mappa('MapboxGL', mappakey);
 let myMap;
-
 let canvas;
 // Options for map
 const options = {
   lat: 0,
   lng: 0,
   zoom: 4,
- //style: 'mapbox://styles/mapbox/streets-v11',
- // style: 'mapbox://styles/rlfbckr/ckgtcdn6y0xc619p6xw4ncqtk',
+  //style: 'mapbox://styles/mapbox/streets-v11',
+  // style: 'mapbox://styles/rlfbckr/ckgtcdn6y0xc619p6xw4ncqtk',
   pitch: 50,
 };
 
@@ -29,10 +27,10 @@ function preload() {
 }
 
 
- 
+
 
 function setup() {
- // canvas = createCanvas(windowWidth, windowHeight,WEBGL);
+ // canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas = createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   angleMode(DEGREES);
@@ -54,73 +52,81 @@ function setup() {
   console.log(firebase);
   console.log('uid:' + uid);
   database = firebase.database();
+  name = createInput();
+  name.position(20, 65);
+
   maintenace();
   updatePlayerData();
   getAllPlayerData();
   setInterval(updateData, 5000); // daten mit server abgleichen
-  meteorites = loadTable('Meteorite_Landings.csv', 'csv', 'header');
+ 
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
   myMap.onChange(drawPlayer);
 
+
+
+
+
+ 
+
 }
 
+
 function draw() {
- 
+
   // background(20);
   // drawPlayer();
-   if (rotationZ != null) {
-    direction  = rotationZ; 
-   } else {
-     direction = -1; /// not found
-   }
-  
-   fill(255);
-   text('z = ' + direction ,0,+20);
-   stroke(255,0,255);
- 
-   if (geoCheck() == true) {
-     text('g = '+lat+' '+long,0,-20);
-   } else{
-     text('geo KO',0,-20);
-   }
-   push();
- 
-   rotateZ(direction );
-   line(0,0,0,1000);
-   pop();
-  
- 
- }
- 
+  if (rotationZ != null) {
+    direction = rotationZ;
+  } else {
+    direction = -1; /// not found
+  }
+
+  fill(255);
+  text('z = ' + direction, 0, +20);
+  stroke(255, 0, 255);
+
+  if (geoCheck() == true) {
+    text('g = ' + lat + ' ' + long, 0, -20);
+  } else {
+    text('geo KO', 0, -20);
+  }
+  push();
+
+  rotateZ(direction);
+  line(0, 0, 0, 1000);
+  pop();
+
+
+}
+
 
 function drawPlayer() {
-  // Clear the canvas
   clear();
-  /*
-  for (let i = 0; i < meteorites.getRowCount(); i += 1) {
-    // Get the lat/lng of each meteorite
-    const latitude = Number(meteorites.getString(i, 'reclat'));
-    const longitude = Number(meteorites.getString(i, 'reclong'));
+  var pos = myMap.latLngToPixel(lat, long);
+  size = map(myMap.zoom(), 1, 6, 5, 20);
+  stroke(255);
+  fill(255, 0, 255)
+  ellipse(pos.x, pos.y, size, size);
 
-    // Transform lat/lng to pixel position
-    const pos = myMap.latLngToPixel(latitude, longitude);
-    // Get the size of the meteorite and map it. 60000000 is the mass of the largest
-    // meteorite (https://en.wikipedia.org/wiki/Hoba_meteorite)
-    let size = meteorites.getString(i, 'mass (g)');
-    size = map(size, 558, 60000000, 1, 25) + myMap.zoom();
-    ellipse(pos.x, pos.y, size, size);
-
-  }
- */
-  // Transform lat/lng to pixel position
-    var pos = myMap.latLngToPixel(lat, long);
-    size = map(myMap.zoom(), 558, 60000000, 10, 25) ;
-    stroke(255);
-    fill(255,0,255)
-    ellipse(pos.x, pos.y, size, size);
  
-  
+  var keys = Object.keys(players);
+
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
+    if (k!=uid) {
+      // not mee
+      var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
+      size = map(myMap.zoom(), 1, 6, 5, 20);
+      stroke(255);
+      fill(0, 255, 255)
+      ellipse(pos.x, pos.y, size, size);
+    }
+  }
+ 
+
 }
 
 function updateData() {
@@ -140,11 +146,11 @@ function errData(data) {
 }
 
 function gotData(data) {
- players = data.val();
+  players = data.val();
 }
 
 
-function positionChanged(position){
+function positionChanged(position) {
   print("lat: " + position.latitude);
   print("long: " + position.longitude);
   lat = position.latitude;
@@ -156,22 +162,23 @@ function maintenace() {
   var now = Date.now();
   var cutoff = now - 20 * 1000; // eine minute...
   var old = ref.orderByChild('timestamp').endAt(cutoff).limitToLast(1);
-  var listener = old.on('child_added', function(snapshot) {
-      snapshot.ref.remove();
+  var listener = old.on('child_added', function (snapshot) {
+    snapshot.ref.remove();
   });
 }
 
 function updatePlayerData() {
   console.log('updateplayerdata');
- // var player = database.ref('player');
+  // var player = database.ref('player');
 
   firebase.database().ref('player/' + uid).set({
     lat: lat,
     long: long,
     direction: direction,
+    name: name.value(),
     timestamp: Date.now()
   });
- 
+
 
 }
 

@@ -19,14 +19,10 @@ let canvas;
 let meteorites;
 
 function setup() {
-//  canvas = createCanvas(800, 700).parent('canvasContainer');
   canvas = createCanvas(windowWidth, windowHeight);
-
-  // Create a tile map and overlay the canvas on top.
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
   myMap.onChange(drawMeteorites);
-  // Load the data
   meteorites = loadTable('Meteorite_Landings.csv', 'csv', 'header');
 
   // Only redraw the meteorites when the map change and not every frame.
