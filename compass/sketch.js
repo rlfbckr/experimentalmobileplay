@@ -64,20 +64,10 @@ function setup() {
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
   myMap.onChange(drawPlayer);
-
-
-
-
-
- 
-
 }
 
 
 function draw() {
-
-  // background(20);
-  // drawPlayer();
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
@@ -105,6 +95,7 @@ function draw() {
 
 function drawPlayer() {
   clear();
+ 
   var pos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
   stroke(255);
@@ -137,22 +128,7 @@ function drawPlayer() {
   }
  }
 
-function drawLinesBetweenAllPlayer() {
-  var keys = Object.keys(players);
-  for (var i = 0; i < keys.length; i++) {
-    var k = keys[i];
-    console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
-    if (k!=uid) {
-      // not mee
-      var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
-      size = map(myMap.zoom(), 1, 6, 5, 7);
-      stroke(255);
-      fill(0, 255, 255)
-      ellipse(pos.x, pos.y, size, size);
-    }
-  }
-}
-
+ 
 
 function updateData() {
   updatePlayerData(); // meine daten updaten
