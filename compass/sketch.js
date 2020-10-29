@@ -105,7 +105,7 @@ function draw() {
 function drawPlayer() {
   clear();
   var pos = myMap.latLngToPixel(lat, long);
-  size = map(myMap.zoom(), 1, 6, 5, 20);
+  size = map(myMap.zoom(), 1, 6, 5, 7);
   stroke(255);
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
@@ -119,7 +119,7 @@ function drawPlayer() {
     if (k!=uid) {
       // not mee
       var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
-      size = map(myMap.zoom(), 1, 6, 5, 20);
+      size = map(myMap.zoom(), 1, 6, 5, 7);
       stroke(255);
       fill(0, 255, 255)
       ellipse(pos.x, pos.y, size, size);
