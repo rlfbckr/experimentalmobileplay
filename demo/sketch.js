@@ -1,18 +1,17 @@
-
-
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
 let myMap;
 let canvas;
 let myFont;
+
 // Options for map
 const options = {
-  lat: 0,
-  lng: 0,
+  lat: 53.0793, // center in bremen
+  lng: 8.8017,
   zoom: 4,
   //style: 'mapbox://styles/mapbox/streets-v11',
   // style: 'mapbox://styles/rlfbckr/ckgtcdn6y0xc619p6xw4ncqtk',
-  pitch: 50,
+  pitch: 0,
 };
 
 let uid = gen_uid(); // unique brower/user id wird als db key benutze...
@@ -161,7 +160,7 @@ function positionChanged(position) {
 function maintenace() {
   var ref = firebase.database().ref('player');
   var now = Date.now();
-  var cutoff = now - 20 * 1000; // eine minute...
+  var cutoff = now - 20 * 1000; // 20 sekunden.
   var old = ref.orderByChild('timestamp').endAt(cutoff).limitToLast(1);
   var listener = old.on('child_added', function (snapshot) {
     snapshot.ref.remove();
@@ -169,9 +168,6 @@ function maintenace() {
 }
 
 function updatePlayerData() {
-  console.log('updateplayerdata');
-  // var player = database.ref('player');
-
   firebase.database().ref('player/' + uid).set({
     lat: lat,
     long: long,
