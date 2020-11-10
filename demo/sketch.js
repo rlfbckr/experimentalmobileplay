@@ -20,7 +20,7 @@ let direction = -1; // wohin wird gekucked
 let lat = -1; // wo bin ich
 let long = -1;
 var database; // db ref
-var players; // alle spieler
+var players; // liste alle spieler
 
 function preload() {
   myFont = loadFont('Ligconsolata-Regular.otf');
@@ -175,8 +175,6 @@ function updatePlayerData() {
     name: name.value(),
     timestamp: Date.now()
   });
-
-
 }
 
 
