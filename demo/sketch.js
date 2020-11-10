@@ -9,6 +9,7 @@ const options = {
   lat: 53.0793, // center in bremen
   lng: 8.8017,
   zoom: 4,
+  style: 'mapbox://styles/mapbox/dark-v9',
   //style: 'mapbox://styles/mapbox/streets-v11',
   // style: 'mapbox://styles/rlfbckr/ckgtcdn6y0xc619p6xw4ncqtk',
   pitch: 0,
@@ -68,31 +69,6 @@ function setup() {
 
 function draw() {
 
-  if (rotationZ != null) {
-    direction = rotationZ;
-  } else {
-    direction = -1; /// not found
-  }
-
-  fill(255);
-  noStroke();
-  rect(0,(windowHeight/4)*3,windowWidth,windowHeight);
-  noStroke();
-  fill(0);
-  text('direction = ' + direction, 30,( (windowHeight/4)*3) + 40);
-
-
-  if (geoCheck() == true) {
-    text('lat = ' + lat + '\nlong = ' + long, 30, ((windowHeight/4)*3) +100);
-  } else {
-    text('geo KO', 30, (height / 2) - 20);
-  }
-
-
-  //  rotateZ(direction);
-  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) * windowWidth, (height / 2) + sin(radians(direction)) * windowWidth);
-
-
 
 }
 
@@ -130,9 +106,39 @@ function drawPlayer() {
 
     }
   }
+
+  drawGui();
 }
 
+function drawGui() {
+  
+  if (rotationZ != null) {
+    direction = rotationZ;
+  } else {
+    direction = -1; /// not found
+  }
 
+  fill(255);
+  noStroke();
+  rect(0,(windowHeight/4)*3,windowWidth,windowHeight);
+  noStroke();
+  fill(0);
+  text('direction = ' + direction, 30,( (windowHeight/4)*3) + 40);
+
+
+  if (geoCheck() == true) {
+    text('lat = ' + lat + '\nlong = ' + long, 30, ((windowHeight/4)*3) +100);
+  } else {
+    text('geo KO', 30, (height / 2) - 20);
+  }
+
+
+  //  rotateZ(direction);
+  stroke(0,255,0);
+  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) * windowWidth, (height / 2) + sin(radians(direction)) * windowWidth);
+
+
+}
 
 function updateData() {
   updatePlayerData(); // meine daten updaten
