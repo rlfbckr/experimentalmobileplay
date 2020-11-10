@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version="11";
+const version = "11";
 let myMap;
 let canvas;
 let myFont;
@@ -119,32 +119,22 @@ function drawPlayer() {
 
 function drawGui() {
   textSize(15);
-  if (rotationZ != null) {
-    direction = rotationZ;
-  } else {
-    direction = -1; /// not found
-  }
-  var info = "";
-
   fill(0);
   noStroke();
   rect(0, (windowHeight * 0.90), windowWidth, windowHeight);
   noStroke();
   fill(255);
-  info += direction = "version = "+version+"\ndirection = " + direction + "\n";
+  var info ="version = " + version + "\ndirection = " + rotationZ + "\n";
   if (geoCheck() == true) {
     info += 'lat = ' + lat + '\nlong = ' + long;
   } else {
     info += 'no geo';
   }
   text(info, 30, (windowHeight * 0.90) + 20);
-
-  //  rotateZ(direction);
   stroke(0, 255, 0);
-  if (direction != -1) {
-    line((width / 2), (height / 2), (width / 2) + (cos((direction-90)) * (windowWidth * 0.4)), (height / 2) + (sin((direction-90)) * (windowWidth * 0.4)));
+  if (rotationZ != null) {
+    line((width / 2), (height / 2), (width / 2) + (cos((rotationZ - 90)) * (windowWidth * 0.4)), (height / 2) + (sin((rotationZ - 90)) * (windowWidth * 0.4)));
   }
-
 }
 
 function updateData() {
@@ -186,6 +176,11 @@ function maintenace() {
 }
 
 function updatePlayerData() {
+  if (rotationZ != null) {
+    direction = rotationZ;
+  } else {
+    direction = -1; /// not found
+  }
   firebase.database().ref('player/' + uid).set({
     lat: lat,
     long: long,
