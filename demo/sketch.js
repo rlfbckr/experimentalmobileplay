@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "11";
+const version = "12";
 let myMap;
 let canvas;
 let myFont;
@@ -54,7 +54,7 @@ function setup() {
   console.log('uid:' + uid);
   database = firebase.database();
   name = createInput();
-  name.position(20, 65);
+  name.position(20, 30);
   name.value(getItem('demoName')); // holt namen aus coookie
 
   maintenace();
