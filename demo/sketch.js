@@ -1,5 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
+const version="11";
 let myMap;
 let canvas;
 let myFont;
@@ -130,11 +131,11 @@ function drawGui() {
   rect(0, (windowHeight * 0.90), windowWidth, windowHeight);
   noStroke();
   fill(255);
-  info += direction = "direction = " + direction + "\n";
+  info += direction = "version = "+version+"\ndirection = " + direction + "\n";
   if (geoCheck() == true) {
     info += 'lat = ' + lat + '\nlong = ' + long;
   } else {
-    info += 'geo KO';
+    info += 'no geo';
   }
   text(info, 30, (windowHeight * 0.90) + 20);
 
