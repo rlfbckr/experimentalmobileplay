@@ -29,8 +29,6 @@ function preload() {
 }
 
 
-
-
 function setup() {
   // canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas = createCanvas(windowWidth, windowHeight);
@@ -76,8 +74,10 @@ function draw() {
 
 function drawPlayer() {
   clear();
+
   var pos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
+  textSize(20);
   stroke(255);
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
@@ -99,7 +99,6 @@ function drawPlayer() {
         ellipse(pos.x, pos.y, size, size);
         fill(255);
         //  if (players[k] != null) {
-        textSize(20);
         text("other: " + players[k].name, pos.x + 20, pos.y);
         //  }
         for (var j = 0; j < keys.length; j++) {
