@@ -33,9 +33,9 @@ function preload() {
 function setup() {
   // canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas = createCanvas(windowWidth, windowHeight);
- // textAlign(CENTER, CENTER);
+  // textAlign(CENTER, CENTER);
   angleMode(DEGREES);
-  textFont(myFont, 20);
+  textFont(myFont, 30);
   textSize(20);
   rotateion = rotationZ;
   watchPosition(positionChanged);
@@ -63,12 +63,12 @@ function setup() {
 
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
- // myMap.onChange(drawPlayer);
+  // myMap.onChange(drawPlayer);
 }
 
 
 function draw() {
- drawPlayer();
+  drawPlayer();
 }
 
 
@@ -79,30 +79,36 @@ function drawPlayer() {
   stroke(255);
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
-
+  noStroke();
+  text("me: "+name.value(), pos.x+20 , pos.y);
   if (players != null) {
 
-  var keys = Object.keys(players);
+    var keys = Object.keys(players);
 
-  for (var i = 0; i < keys.length; i++) {
-    var k = keys[i];
-    // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
-    if (k != uid) {
-      // not mee
-      var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
-      size = map(myMap.zoom(), 1, 6, 5, 7);
-      stroke(255);
-      fill(0, 255, 255)
-      ellipse(pos.x, pos.y, size, size);
-      for (var j = 0; j < keys.length; j++) {
-        var ko = keys[j];
-        if (ko != k) {
-          console.log("Key: " + ko + "   lat: " + players[ko].lat + "   Name: " + players[ko].long);
-          var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
-          line(pos.x, pos.y, pos_other.x, pos_other.y)
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
+      if (k != uid) {
+        // not mee
+        var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
+        size = map(myMap.zoom(), 1, 6, 5, 7);
+        stroke(255);
+        fill(0, 255, 255)
+        ellipse(pos.x, pos.y, size, size);
+        fill(255);
+      //  if (players[k] != null) {
+        textSize(20);
+        text("other: "+players[k].name, pos.x +20 , pos.y);
+      //  }
+        for (var j = 0; j < keys.length; j++) {
+          var ko = keys[j];
+          if (ko != k) {
+            console.log("Key: " + ko + "   lat: " + players[ko].lat + "   lat: " + players[ko].long+ "   name: " + players[ko].name);
+            var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
+            line(pos.x, pos.y, pos_other.x, pos_other.y)
+          }
         }
       }
-    }
     }
   }
 
@@ -110,7 +116,7 @@ function drawPlayer() {
 }
 
 function drawGui() {
-  
+  textSize(20);
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
@@ -119,23 +125,23 @@ function drawGui() {
 
   fill(0);
   noStroke();
-  rect(0,(windowHeight*0.85),windowWidth,windowHeight);
+  rect(0, (windowHeight * 0.85), windowWidth, windowHeight);
   noStroke();
   fill(255);
-  text('direction = ' + direction, 30, (windowHeight*0.85) + 40);
+  text('direction = ' + direction, 30, (windowHeight * 0.85) + 40);
 
 
   if (geoCheck() == true) {
-    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight*0.85) +70);
+    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight * 0.85) + 70);
   } else {
     text('geo KO', 30, (height / 2) - 20);
   }
 
 
   //  rotateZ(direction);
-  stroke(0,255,0);
+  stroke(0, 255, 0);
 
-  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) *  (windowWidth*0.4), (height / 2) + sin(radians(direction)) * (windowWidth*0.4));
+  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) * (windowWidth * 0.4), (height / 2) + sin(radians(direction)) * (windowWidth * 0.4));
 
 
 }
