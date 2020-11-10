@@ -80,7 +80,7 @@ function drawPlayer() {
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
   noStroke();
-  text("me: "+name.value(), pos.x+20 , pos.y);
+  text("me: " + name.value(), pos.x + 20, pos.y);
   if (players != null) {
 
     var keys = Object.keys(players);
@@ -96,14 +96,14 @@ function drawPlayer() {
         fill(0, 255, 255)
         ellipse(pos.x, pos.y, size, size);
         fill(255);
-      //  if (players[k] != null) {
+        //  if (players[k] != null) {
         textSize(20);
-        text("other: "+players[k].name, pos.x +20 , pos.y);
-      //  }
+        text("other: " + players[k].name, pos.x + 20, pos.y);
+        //  }
         for (var j = 0; j < keys.length; j++) {
           var ko = keys[j];
           if (ko != k) {
-            console.log("Key: " + ko + "   lat: " + players[ko].lat + "   lat: " + players[ko].long+ "   name: " + players[ko].name);
+            console.log("Key: " + ko + "   lat: " + players[ko].lat + "   lat: " + players[ko].long + "   name: " + players[ko].name);
             var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
             line(pos.x, pos.y, pos_other.x, pos_other.y)
           }
@@ -125,24 +125,23 @@ function drawGui() {
 
   fill(0);
   noStroke();
-  rect(0, (windowHeight * 0.85), windowWidth, windowHeight);
+  rect(0, (windowHeight * 0.90), windowWidth, windowHeight);
   noStroke();
   fill(255);
-  text('direction = ' + direction, 30, (windowHeight * 0.85) + 40);
+  text('direction = ' + direction, 30, (windowHeight * 0.90) + 40);
 
 
   if (geoCheck() == true) {
-    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight * 0.85) + 70);
+    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight * 0.90) + 70);
   } else {
     text('geo KO', 30, (height / 2) - 20);
   }
 
-
   //  rotateZ(direction);
   stroke(0, 255, 0);
-
-  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) * (windowWidth * 0.4), (height / 2) + sin(radians(direction)) * (windowWidth * 0.4));
-
+  if (direction != -1) {
+    line((width / 2), (height / 2), (width / 2) + (cos(radians(direction)) * (windowWidth * 0.4)), (height / 2) + (sin(radians(direction)) * (windowWidth * 0.4)));
+  }
 
 }
 
