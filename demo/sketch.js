@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "15";
+const version = "17";
 let myMap;
 let canvas;
 let myFont;
@@ -83,14 +83,14 @@ function drawPlayer() {
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
   noStroke();
-  text("me: " + name.value(), pos.x + 20, pos.y);
-
-  line(pos.x, pos.y, pos.x+ (cos(rotationZ) * (windowWidth * 0.4)),pos.y + (sin(rotationZ) * (windowWidth * 0.4)));
+  text("me: " + name.value() + "\nrotationZ=" + rotationZ, pos.x + 20, pos.y);
+  stroke(255, 0, 255);
+  var dirx = pos.x + (cos(rotationZ) * (windowWidth * 0.2));
+  var diry = pos.y + (sin(rotationZ) * (windowWidth * 0.2));
+  line(pos.x, pos.y, dirx, diry);
 
   if (players != null) {
-
     var keys = Object.keys(players);
-
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
       // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
@@ -104,6 +104,12 @@ function drawPlayer() {
         fill(255);
         //  if (players[k] != null) {
         text("other: " + players[k].name, pos.x + 20, pos.y);
+
+        stroke(0, 255, 255);
+        var dirx = pos.x + (cos(rotationZ) * (windowWidth * 0.2));
+        var diry = pos.y + (sin(rotationZ) * (windowWidth * 0.2));
+        line(pos.x, pos.y, dirx, diry);
+
         //  }
         for (var j = 0; j < keys.length; j++) {
           var ko = keys[j];
@@ -116,7 +122,6 @@ function drawPlayer() {
       }
     }
   }
-
   drawGui();
 }
 
@@ -127,7 +132,7 @@ function drawGui() {
   rect(0, (windowHeight * 0.90), windowWidth, windowHeight);
   noStroke();
   fill(255);
-  var info ="version = " + version + "\ndirection = " + rotationZ + "\n";
+  var info = "version = " + version + "\ndirection = " + rotationZ + "\n";
   if (geoCheck() == true) {
     info += 'lat = ' + lat + '\nlong = ' + long;
   } else {
@@ -135,9 +140,12 @@ function drawGui() {
   }
   text(info, 30, (windowHeight * 0.90) + 20);
   stroke(0, 255, 0);
-  if (rotationZ != null) {
-    line((width / 2), (height / 2), (width / 2) + (cos((rotationZ - 90)) * (windowWidth * 0.4)), (height / 2) + (sin((rotationZ - 90)) * (windowWidth * 0.4)));
+  if (name.value() == "hansi-desktop") {
+    rotationZ = 5.12;
   }
+  //if (rotationZ != null) {
+  //  line((width / 2), (height / 2), (width / 2) + (cos((rotationZ - 90)) * (windowWidth * 0.4)), (height / 2) + (sin((rotationZ - 90)) * (windowWidth * 0.4)));
+  // }
 }
 
 function updateData() {
@@ -153,13 +161,12 @@ function getAllPlayerData() {
 }
 
 function errData(data) {
-
+  // nop
 }
 
 function gotData(data) {
   players = data.val();
 }
-
 
 function positionChanged(position) {
   print("lat: " + position.latitude);
@@ -182,7 +189,7 @@ function updatePlayerData() {
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
-    direction = -1; /// not found
+    direction = -1; /// no gps
   }
   firebase.database().ref('player/' + uid).set({
     lat: lat,
