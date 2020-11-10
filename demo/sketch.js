@@ -84,6 +84,9 @@ function drawPlayer() {
   ellipse(pos.x, pos.y, size, size);
   noStroke();
   text("me: " + name.value(), pos.x + 20, pos.y);
+
+  line(pos.x, pos.y, pos.x+ (cos(rotationZ - 90) * (windowWidth * 0.4)),pos.y + (sin(rotationZ - 90) * (windowWidth * 0.4)));
+
   if (players != null) {
 
     var keys = Object.keys(players);
