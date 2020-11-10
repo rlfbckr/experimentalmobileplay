@@ -74,19 +74,19 @@ function draw() {
   }
 
   fill(255);
-  text('z = ' + direction, 0, +20);
+  text('direction = ' + direction, (width/2),(height/2) +20);
   stroke(255, 0, 255);
 
   if (geoCheck() == true) {
-    text('g = ' + lat + ' ' + long, 0, -20);
+    text('g = ' + lat + ' ' + long, (width/2), (height/2)-20);
   } else {
-    text('geo KO', 0, -20);
+    text('geo KO',  (width/2), (height/2)-20);
   }
-  push();
+ 
 
-  rotateZ(direction);
-  line(0, 0, 0, 1000);
-  pop();
+//  rotateZ(direction);
+line( (width/2), (height/2), cos(radians(direction))*100, sin(radians(direction))*100);
+ 
 
 
 }
