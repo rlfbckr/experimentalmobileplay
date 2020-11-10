@@ -30,9 +30,9 @@ function preload() {
 
 
 function setup() {
- // canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+  // canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas = createCanvas(windowWidth, windowHeight);
-  textAlign(CENTER, CENTER);
+ // textAlign(CENTER, CENTER);
   angleMode(DEGREES);
   textFont(myFont, 36);
   textSize(36);
@@ -59,7 +59,7 @@ function setup() {
   updatePlayerData();
   getAllPlayerData();
   setInterval(updateData, 5000); // daten mit server abgleichen
- 
+
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
   myMap.onChange(drawPlayer);
@@ -67,7 +67,7 @@ function setup() {
 
 
 function draw() {
- 
+
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
@@ -75,19 +75,23 @@ function draw() {
   }
 
   fill(255);
-  text('direction = ' + direction, (width/2),(height/2) +20);
-  stroke(255, 0, 255);
+  noStroke();
+  rect(0,(windowHeight/4)*3,windowWidth,windowHeight);
+  noStroke();
+  fill(0);
+  text('direction = ' + direction, 30,( (windowHeight/4)*3) + 40);
+
 
   if (geoCheck() == true) {
-    text('lat = ' + lat + '\nlong = ' + long, (width/2), (height/2)-40);
+    text('lat = ' + lat + '\nlong = ' + long, 30, ((windowHeight/4)*3) +100);
   } else {
-    text('geo KO',  (width/2), (height/2)-20);
+    text('geo KO', 30, (height / 2) - 20);
   }
- 
 
-//  rotateZ(direction);
-line( (width/2), (height/2), (width/2)+ cos(radians(direction))*windowWidth,  (height/2)+ sin(radians(direction))*windowWidth);
- 
+
+  //  rotateZ(direction);
+  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) * windowWidth, (height / 2) + sin(radians(direction)) * windowWidth);
+
 
 
 }
@@ -95,20 +99,20 @@ line( (width/2), (height/2), (width/2)+ cos(radians(direction))*windowWidth,  (h
 
 function drawPlayer() {
   clear();
- 
+
   var pos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
   stroke(255);
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
 
- 
+
   var keys = Object.keys(players);
 
   for (var i = 0; i < keys.length; i++) {
     var k = keys[i];
-   // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
-    if (k!=uid) {
+    // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
+    if (k != uid) {
       // not mee
       var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
       size = map(myMap.zoom(), 1, 6, 5, 7);
@@ -120,15 +124,15 @@ function drawPlayer() {
         if (ko != k) {
           console.log("Key: " + ko + "   lat: " + players[ko].lat + "   Name: " + players[ko].long);
           var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
-          line(pos.x,pos.y,pos_other.x,pos_other.y)
+          line(pos.x, pos.y, pos_other.x, pos_other.y)
         }
       }
 
     }
   }
- }
+}
 
- 
+
 
 function updateData() {
   updatePlayerData(); // meine daten updaten
