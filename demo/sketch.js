@@ -136,7 +136,7 @@ function drawGui() {
   //  rotateZ(direction);
   stroke(0,255,0);
 
-  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) * windowWidth, (height / 2) + sin(radians(direction)) * windowWidth);
+  line((width / 2), (height / 2), (width / 2) + cos(radians(direction)) *  (windowWidth*0.4), (height / 2) + sin(radians(direction)) * (windowWidth*0.4));
 
 
 }
