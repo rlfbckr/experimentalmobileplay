@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "13";
+const version = "14";
 let myMap;
 let canvas;
 let myFont;
@@ -85,7 +85,7 @@ function drawPlayer() {
   noStroke();
   text("me: " + name.value(), pos.x + 20, pos.y);
 
-  line(pos.x, pos.y, pos.x+ (cos(rotationZ - 90) * (windowWidth * 0.4)),pos.y + (sin(rotationZ - 90) * (windowWidth * 0.4)));
+  line(pos.x, pos.y, pos.x+ (cos(rotationZ) * (windowWidth * 0.4)),pos.y + (sin(rotationZ) * (windowWidth * 0.4)));
 
   if (players != null) {
 
