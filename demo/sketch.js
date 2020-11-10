@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "12";
+const version = "13";
 let myMap;
 let canvas;
 let myFont;
