@@ -35,8 +35,8 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
  // textAlign(CENTER, CENTER);
   angleMode(DEGREES);
-  textFont(myFont, 36);
-  textSize(36);
+  textFont(myFont, 20);
+  textSize(20);
   rotateion = rotationZ;
   watchPosition(positionChanged);
   var firebaseConfig = {
@@ -63,25 +63,24 @@ function setup() {
 
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
-  myMap.onChange(drawPlayer);
+ // myMap.onChange(drawPlayer);
 }
 
 
 function draw() {
-
-
+ drawPlayer();
 }
 
 
 function drawPlayer() {
   clear();
-
   var pos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
   stroke(255);
   fill(255, 0, 255)
   ellipse(pos.x, pos.y, size, size);
 
+  if (players != null) {
 
   var keys = Object.keys(players);
 
@@ -103,7 +102,7 @@ function drawPlayer() {
           line(pos.x, pos.y, pos_other.x, pos_other.y)
         }
       }
-
+    }
     }
   }
 
@@ -127,7 +126,7 @@ function drawGui() {
 
 
   if (geoCheck() == true) {
-    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight*0.85) +100);
+    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight*0.85) +70);
   } else {
     text('geo KO', 30, (height / 2) - 20);
   }
