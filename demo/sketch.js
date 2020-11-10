@@ -67,6 +67,7 @@ function setup() {
 
 
 function draw() {
+ 
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
@@ -78,14 +79,14 @@ function draw() {
   stroke(255, 0, 255);
 
   if (geoCheck() == true) {
-    text('g = ' + lat + ' ' + long, (width/2), (height/2)-20);
+    text('lat = ' + lat + '\nlong = ' + long, (width/2), (height/2)-40);
   } else {
     text('geo KO',  (width/2), (height/2)-20);
   }
  
 
 //  rotateZ(direction);
-line( (width/2), (height/2), cos(radians(direction))*100, sin(radians(direction))*100);
+line( (width/2), (height/2), (width/2)+ cos(radians(direction))*windowWidth,  (height/2)+ sin(radians(direction))*windowWidth);
  
 
 
