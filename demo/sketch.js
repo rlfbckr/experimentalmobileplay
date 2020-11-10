@@ -4,11 +4,12 @@ let myMap;
 let canvas;
 let myFont;
 
+
 // Options for map
 const options = {
   lat: 53.0793, // center in bremen
   lng: 8.8017,
-  zoom: 4,
+  zoom: 6,
   style: 'mapbox://styles/mapbox/dark-v9',
   //style: 'mapbox://styles/mapbox/streets-v11',
   // style: 'mapbox://styles/rlfbckr/ckgtcdn6y0xc619p6xw4ncqtk',
@@ -55,6 +56,7 @@ function setup() {
   database = firebase.database();
   name = createInput();
   name.position(20, 65);
+  name.value(getItem('demoName')); // holt namen aus coookie
 
   maintenace();
   updatePlayerData();
@@ -149,7 +151,7 @@ function updateData() {
   updatePlayerData(); // meine daten updaten
   maintenace();
   getAllPlayerData(); // alle anders player daten holen
-
+  storeItem('demoName', name.value()); // player namen im coookie speichern
 }
 
 function getAllPlayerData() {
