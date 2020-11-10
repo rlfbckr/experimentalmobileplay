@@ -116,31 +116,31 @@ function drawPlayer() {
 }
 
 function drawGui() {
-  textSize(20);
+  textSize(15);
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
     direction = -1; /// not found
   }
+  var info = "";
 
   fill(0);
   noStroke();
   rect(0, (windowHeight * 0.90), windowWidth, windowHeight);
   noStroke();
   fill(255);
-  text('direction = ' + direction, 30, (windowHeight * 0.90) + 40);
-
-
+  info += direction = "direction = " + direction + "\n";
   if (geoCheck() == true) {
-    text('lat = ' + lat + '\nlong = ' + long, 30, (windowHeight * 0.90) + 70);
+    info += 'lat = ' + lat + '\nlong = ' + long;
   } else {
-    text('geo KO', 30, (height / 2) - 20);
+    info += 'geo KO';
   }
+  text(info, 30, (windowHeight * 0.90) + 20);
 
   //  rotateZ(direction);
   stroke(0, 255, 0);
   if (direction != -1) {
-    line((width / 2), (height / 2), (width / 2) + (cos(radians(direction)) * (windowWidth * 0.4)), (height / 2) + (sin(radians(direction)) * (windowWidth * 0.4)));
+    line((width / 2), (height / 2), (width / 2) + (cos((direction-90)) * (windowWidth * 0.4)), (height / 2) + (sin((direction-90)) * (windowWidth * 0.4)));
   }
 
 }
