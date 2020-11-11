@@ -116,7 +116,6 @@ function drawPlayer() {
           if (ko != k) { // selfcheck
             var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
             line(pos.x, pos.y, pos_other.x, pos_other.y);
-
           }
         }
       }
@@ -128,11 +127,10 @@ function drawPlayer() {
 
 function drawArrow(base, vec, myColor) {
   push();
-
   translate(base.x, base.y);
   line(0, 0, vec.x, vec.y);
   rotate(vec.heading());
-  let arrowSize = 7;
+  let arrowSize = 8;
   translate(vec.mag() - arrowSize, 0);
   triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
   pop();
@@ -194,7 +192,7 @@ function updatePlayerData() {
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
-    direction = ""; /// no gps
+    direction = ""; // no gps
   }
   firebase.database().ref('player/' + uid).set({
     lat: lat,
