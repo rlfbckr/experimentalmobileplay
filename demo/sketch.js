@@ -77,6 +77,7 @@ function draw() {
 
 function drawPlayer() {
   clear();
+
   push();
   var mypos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
@@ -156,9 +157,9 @@ function drawGui() {
 
 function updateData() {
   updatePlayerData(); // meine daten updaten
-  maintenancePlayerData();
+  maintenancePlayerData(); // kill all zombies
   getAllPlayerData(); // alle anders player daten holen
-  storeItem('demoName', name.value()); // player namen im coookie speichern
+  storeItem('demoName', name.value()); // meinen player namen im coookie speichern
 }
 
 function getAllPlayerData() {
@@ -207,6 +208,11 @@ function updatePlayerData() {
 
 
 function gen_uid() {
+  /*
+   erzeuge eine user id anhänig von bildschirmaufläsung; browser id, etc....
+   https://pixelprivacy.com/resources/browser-fingerprinting/
+   https://en.wikipedia.org/wiki/Device_fingerprint
+  */
   var navigator_info = window.navigator;
   var screen_info = window.screen;
   var uid = navigator_info.mimeTypes.length;
