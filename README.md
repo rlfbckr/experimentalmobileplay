@@ -15,6 +15,8 @@ used [libraries](https://p5js.org/libraries/):
 
 entwicklungstools:
 
+* Chrome
+  + entwickler tools
 * studio code (entwicklungsumgebung)
   * Live Server extension
   * git extension 
