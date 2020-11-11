@@ -80,7 +80,7 @@ function drawPlayer() {
   var mypos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
   noStroke();
-  fill(255)
+  fill(255, 0, 255);
   ellipse(mypos.x, mypos.y, size, size);
 
   text("me: " + name.value() + "\nrotationZ = " + rotationZ, mypos.x + 20, mypos.y);
