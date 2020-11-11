@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "18";
+const version = "19";
 let myMap;
 let canvas;
 let myFont;
@@ -70,56 +70,72 @@ function setup() {
 
 function draw() {
   drawPlayer();
+  drawGui();
 }
 
 
 function drawPlayer() {
   clear();
-
+  push();
   var mypos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
-  textSize(20);
-  stroke(255);
-  fill(255, 0, 255)
-  ellipse(mypos.x, mypos.y, size, size);
   noStroke();
-  text("me: " + name.value() + "\nrotationZ=" + rotationZ, mypos.x + 20, mypos.y);
-  stroke(255, 0, 255);
-  line(mypos.x, mypos.y, mypos.x + (cos(rotationZ) * (windowWidth * 0.2)), mypos.y + (sin(rotationZ) * (windowWidth * 0.2)));
+  fill(255)
+  ellipse(mypos.x, mypos.y, size, size);
 
+  text("me: " + name.value() + "\nrotationZ = " + rotationZ, mypos.x + 20, mypos.y);
+  if (rotationZ != null) {
+    stroke(255, 0, 255);
+    fill(255, 0, 255);
+    let dirvec = createVector((cos(rotationZ) * (size * 10)), (sin(rotationZ) * (size * 10)));
+    drawArrow(createVector(mypos.x, mypos.y), dirvec, 255);
+  }
   if (players != null) {
     var keys = Object.keys(players);
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
       // console.log("Key: " + k + "   lat: " + players[k].lat + "   Name: " + players[k].long);
       if (k != uid) {
-        // not mee
+        // not myself
         var pos = myMap.latLngToPixel(players[k].lat, players[k].long);
         size = map(myMap.zoom(), 1, 6, 5, 7);
-        stroke(255);
+        noStroke();
         fill(0, 255, 255)
         ellipse(pos.x, pos.y, size, size);
         fill(255);
-        //  if (players[k] != null) {
-        text("other: " + players[k].name, pos.x + 20, pos.y);
-
+        text(players[k].name+"\nrotationZ = " + players[k].direction, pos.x + 20, pos.y);
         stroke(0, 255, 255);
-        if (players[k].direction != "" ) {
-            line(pos.x, pos.y, pos.x + (cos(players[k].direction) * (windowWidth * 0.2)), pos.y + (sin(players[k].direction) * (windowWidth * 0.2)));
+        fill(0, 255, 255);
+        if (players[k].direction != "") {
+          let dirvec = createVector((cos(players[k].direction) * (size * 10)), (sin(players[k].direction) * (size * 10)));
+          drawArrow(createVector(pos.x, pos.y), dirvec, 255);
         }
-        //  }
+        stroke(255);
         for (var j = 0; j < keys.length; j++) {
           var ko = keys[j];
-          if (ko != k) {
-            console.log("Key: " + ko + "   lat: " + players[ko].lat + "   lat: " + players[ko].long + "   name: " + players[ko].name);
+          if (ko != k) { // selfcheck
             var pos_other = myMap.latLngToPixel(players[ko].lat, players[ko].long);
-            line(pos.x, pos.y, pos_other.x, pos_other.y)
+            line(pos.x, pos.y, pos_other.x, pos_other.y);
+
           }
         }
       }
     }
   }
-  drawGui();
+
+  pop();
+}
+
+function drawArrow(base, vec, myColor) {
+  push();
+
+  translate(base.x, base.y);
+  line(0, 0, vec.x, vec.y);
+  rotate(vec.heading());
+  let arrowSize = 7;
+  translate(vec.mag() - arrowSize, 0);
+  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  pop();
 }
 
 function drawGui() {
@@ -137,11 +153,6 @@ function drawGui() {
   }
   text(info, 30, (windowHeight * 0.90) + 20);
   stroke(0, 255, 0);
-  /*
-  if (name.value() == "hansi-desktop") { // fake compass for desktop
-    rotationZ = 5.12;
-  }
-  */
 }
 
 function updateData() {
@@ -205,6 +216,5 @@ function gen_uid() {
   uid += screen_info.height || '';
   uid += screen_info.width || '';
   uid += screen_info.pixelDepth || '';
-
   return uid;
 }
