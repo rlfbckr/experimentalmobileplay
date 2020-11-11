@@ -33,12 +33,11 @@ function preload() {
 function setup() {
   // canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas = createCanvas(windowWidth, windowHeight);
-  // textAlign(CENTER, CENTER);
   angleMode(DEGREES);
-  textFont(myFont, 30);
+  textFont(myFont, 20);
   textSize(20);
-  rotateion = rotationZ;
-  watchPosition(positionChanged);
+  watchPosition(positionChanged); // gps callback
+
   var firebaseConfig = {
     apiKey: "AIzaSyDdxhSS1i5bmGA8kcEZX6VARalGIU-_qZg",
     authDomain: "exmp-2c800.firebaseapp.com",
@@ -53,11 +52,13 @@ function setup() {
   console.log(firebase);
   console.log('uid:' + uid);
   database = firebase.database();
+
+  // eingebefeld für den namen
   name = createInput();
   name.position(20, 30);
   name.value(getItem('demoName')); // holt namen aus coookie
 
-  maintenace();
+  maintenancePlayerData();
   updatePlayerData();
   getAllPlayerData();
   setInterval(updateData, 2000); // daten mit server abgleichen
@@ -155,7 +156,7 @@ function drawGui() {
 
 function updateData() {
   updatePlayerData(); // meine daten updaten
-  maintenace();
+  maintenancePlayerData();
   getAllPlayerData(); // alle anders player daten holen
   storeItem('demoName', name.value()); // player namen im coookie speichern
 }
@@ -178,7 +179,7 @@ function positionChanged(position) {
   long = position.longitude;
 }
 
-function maintenace() {
+function maintenancePlayerData() {
   var ref = firebase.database().ref('player');
   var now = Date.now();
   var cutoff = now - 20 * 1000; // 20 sekunden.
