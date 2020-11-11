@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "17";
+const version = "18";
 let myMap;
 let canvas;
 let myFont;
@@ -60,7 +60,7 @@ function setup() {
   maintenace();
   updatePlayerData();
   getAllPlayerData();
-  setInterval(updateData, 5000); // daten mit server abgleichen
+  setInterval(updateData, 2000); // daten mit server abgleichen
 
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
@@ -137,12 +137,11 @@ function drawGui() {
   }
   text(info, 30, (windowHeight * 0.90) + 20);
   stroke(0, 255, 0);
+  /*
   if (name.value() == "hansi-desktop") { // fake compass for desktop
     rotationZ = 5.12;
   }
-  //if (rotationZ != null) {
-  //  line((width / 2), (height / 2), (width / 2) + (cos((rotationZ - 90)) * (windowWidth * 0.4)), (height / 2) + (sin((rotationZ - 90)) * (windowWidth * 0.4)));
-  // }
+  */
 }
 
 function updateData() {
