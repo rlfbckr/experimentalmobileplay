@@ -76,18 +76,16 @@ function draw() {
 function drawPlayer() {
   clear();
 
-  var pos = myMap.latLngToPixel(lat, long);
+  var mypos = myMap.latLngToPixel(lat, long);
   size = map(myMap.zoom(), 1, 6, 5, 7);
   textSize(20);
   stroke(255);
   fill(255, 0, 255)
-  ellipse(pos.x, pos.y, size, size);
+  ellipse(mypos.x, mypos.y, size, size);
   noStroke();
-  text("me: " + name.value() + "\nrotationZ=" + rotationZ, pos.x + 20, pos.y);
+  text("me: " + name.value() + "\nrotationZ=" + rotationZ, mypos.x + 20, mypos.y);
   stroke(255, 0, 255);
-  var dirx = pos.x + (cos(rotationZ) * (windowWidth * 0.2));
-  var diry = pos.y + (sin(rotationZ) * (windowWidth * 0.2));
-  line(pos.x, pos.y, dirx, diry);
+  line(mypos.x, mypos.y, mypos.x + (cos(rotationZ) * (windowWidth * 0.2)), mypos.y + (sin(rotationZ) * (windowWidth * 0.2)));
 
   if (players != null) {
     var keys = Object.keys(players);
@@ -106,10 +104,9 @@ function drawPlayer() {
         text("other: " + players[k].name, pos.x + 20, pos.y);
 
         stroke(0, 255, 255);
-        var dirx = pos.x + (cos(rotationZ) * (windowWidth * 0.2));
-        var diry = pos.y + (sin(rotationZ) * (windowWidth * 0.2));
-        line(pos.x, pos.y, dirx, diry);
-
+        if (players[k].direction != "" ) {
+            line(pos.x, pos.y, pos.x + (cos(players[k].direction) * (windowWidth * 0.2)), pos.y + (sin(players[k].direction) * (windowWidth * 0.2)));
+        }
         //  }
         for (var j = 0; j < keys.length; j++) {
           var ko = keys[j];
@@ -140,7 +137,7 @@ function drawGui() {
   }
   text(info, 30, (windowHeight * 0.90) + 20);
   stroke(0, 255, 0);
-  if (name.value() == "hansi-desktop") {
+  if (name.value() == "hansi-desktop") { // fake compass for desktop
     rotationZ = 5.12;
   }
   //if (rotationZ != null) {
@@ -169,8 +166,6 @@ function gotData(data) {
 }
 
 function positionChanged(position) {
-  print("lat: " + position.latitude);
-  print("long: " + position.longitude);
   lat = position.latitude;
   long = position.longitude;
 }
@@ -189,7 +184,7 @@ function updatePlayerData() {
   if (rotationZ != null) {
     direction = rotationZ;
   } else {
-    direction = -1; /// no gps
+    direction = ""; /// no gps
   }
   firebase.database().ref('player/' + uid).set({
     lat: lat,
