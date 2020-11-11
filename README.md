@@ -12,3 +12,11 @@ used [libraries](https://p5js.org/libraries/):
 * Database:  [firebase](https://firebase.google.com/)
 * p5js / firebase tutorial by [Daniel Shiffmann](https://shiffman.net/a2z/firebase/)
 
+
+entwicklungstools:
+
+* studio code (entwicklungsumgebung)
+  * Live Server extension
+  * git extension 
+* github + github pages
+* firebase als server
