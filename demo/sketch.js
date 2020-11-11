@@ -1,6 +1,6 @@
 const mappakey = 'pk.eyJ1IjoicmxmYmNrciIsImEiOiJja2d0Ym5qbjkwc3poMzBreTBnMnM2Z3czIn0.6fZAUJL9xrsg5Mi-DHH-ZA';
 const mappa = new Mappa('MapboxGL', mappakey);
-const version = "19";
+const version = "21";
 let myMap;
 let canvas;
 let myFont;
@@ -82,7 +82,7 @@ function drawPlayer() {
   noStroke();
   fill(255, 0, 255);
   ellipse(mypos.x, mypos.y, size, size);
-
+  fill(255);
   text("me: " + name.value() + "\nrotationZ = " + rotationZ, mypos.x + 20, mypos.y);
   if (rotationZ != null) {
     stroke(255, 0, 255);
