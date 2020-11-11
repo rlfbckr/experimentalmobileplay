@@ -19,6 +19,6 @@ entwicklungstools:
   + entwickler tools
 * studio code (entwicklungsumgebung)
   * Live Server extension
-  * git extension 
+  * Git extension 
 * github + github pages
-* firebase als server
+* firebase als server für multiplayer
